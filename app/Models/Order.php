@@ -17,7 +17,7 @@ class  Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    // todo сделать связь, чтобы возвращались товары текущего юзера
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'order_products', 'order_id', 'product_id');

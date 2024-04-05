@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,10 +27,11 @@ class LoginController extends Controller
                 return redirect()->route('home');
             }
         }
-        return redirect()->back()->with('error', 'Пользователь не найден');
+        return redirect()->back()->with('error', 'Неверный логин или пароль');
     }
 
-    public function logout() {
+    public function logout()
+    {
         Auth::logout();
 
         return redirect()->route('home');

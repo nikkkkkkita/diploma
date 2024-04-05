@@ -3,6 +3,12 @@
 @section('title', 'Корзина')
 
 @section('content')
+    <style>
+        main {
+            background-color: rgba(249, 249, 249, 1);
+        }
+    </style>
+
     @if($errors -> any())
         <div class="errors">
             <ul class="alert alert-danger mt-2 mb-2">
@@ -12,141 +18,209 @@
             </ul>
         </div>
     @endif
+
     @if(!session('cart'))
-        Корзина пуста
+        <div class="info-wrap">
+            <div class="info-card">
+                <div class="info-card-wrap">
+                    <div class="info-header">
+                        <h2 class="info-header_h">Корзина пуста</h2>
+                        <p class="info-header_p">Воспользуйтесь каталогом, чтобы найти то, что вас интересует</p>
+                    </div>
+                    <div class="card-section-info_bottom">
+                        <a href="{{ route('catalog') }}" class="btn btn-black btn-arrow w-100">За покупками</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     @else
         @php
             $total = 0;
         @endphp
-        @if (session('cart'))
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            <div class="row">
-                <div class="col-9">
-                    <div class="p-card">
-                        <span>Корзина</span>
-                        @foreach(session('cart') as $id => $details)
-                            @php
-                                $total += $details['price'] * $details['quantity'];
-                                $product = \App\Models\Product::find($id);
-                            @endphp
-                            <div class="product-wrap">
-                                <div class="product__img">
-                                    <img src="{{ $details['image'] }}" class="rounded-2 object-fit-cover" width="100px"
-                                         height="100px">
-                                </div>
-                                <div class="product__name">
-                                    {{ $details['name'] }}
-                                </div>
+    @endif
 
-                                <div class="product__count">
-                                    <button type="button" class="btn__min" data-id="{{ $id }}">-</button>
-                                    <input type="number" disabled class="product_input" min="1"
-                                           max="{{ $product->count }}" value="{{ $details['quantity'] }}" id="product"
-                                           data-max="{{$product->count}}" data-id="{{ $id }}">
-                                    <button type="button" data-id="{{ $id }}" class="btn__plus">+</button>
-                                </div>
+    @if(session('cart'))
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-                                <div class="product__price">
-                                    {{ number_format($details['price'] * $details['quantity'], 0, '', ' ')}} ₽
-                                    <div class="btn-wrap">
+        <div class="row">
+            <div class="col-9">
+                <div class="p-card">
+                    <h2 class="p-card__header">Корзина</h2>
 
-                                        <form action="{{route('cart.delete', $id)}}" method="post">
-                                            @csrf
-                                            <button type="submit" class="bg-transparent border-0 btn-delete">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M21 5.97998C17.67 5.64998 14.32 5.47998 10.98 5.47998C9 5.47998 7.02 5.57998 5.04 5.77998L3 5.97998"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
-                                                    <path
-                                                        d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
-                                                    <path
-                                                        d="M18.85 9.14001L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79002C6.00002 22 5.91002 20.78 5.80002 19.21L5.15002 9.14001"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
-                                                    <path d="M10.33 16.5H13.66" stroke-width="1.5"
-                                                          stroke-linecap="round" stroke-linejoin="round"></path>
-                                                    <path d="M9.5 12.5H14.5" stroke-width="1.5" stroke-linecap="round"
-                                                          stroke-linejoin="round"></path>
-                                                </svg>
-                                            </button>
-                                        </form>
+                    @foreach(session('cart') as $id => $details)
+                        @php
+                            $total += $details['price'] * $details['quantity'];
+//                            $quantity = $details['quantity'];
+                            $product = \App\Models\Product::find($id);
+                        @endphp
 
-                                    </div>
-                                </div>
+                        <div class="product-wrap">
+
+                            <div class="product__img">
+                                <img src="{{ $details['image'] }}" class="rounded-2 object-fit-cover" width="100px" height="100px" alt="Продукт">
                             </div>
-                        @endforeach
-                    </div>
 
-                    <div class="contact-information__form">
+                            <div class="product__name">
+                                {{ $details['name'] }}
+                            </div>
+
+                            <div class="product__count">
+                                <button type="button" class="btn__min" data-id="{{ $id }}">-</button>
+                                <input type="number" disabled class="product_input" min="1" max="{{ $product->count }}" value="{{ $details['quantity'] }}" id="product" data-max="{{$product->count}}" data-id="{{ $id }}">
+                                <button type="button" data-id="{{ $id }}" class="btn__plus">+</button>
+                            </div>
+
+                            <div class="product__price">
+                                {{ number_format($details['price'] * $details['quantity'], 0, '', ' ')}} ₽
+
+                                <div class="btn-wrap">
+
+                                    <form action="{{route('cart.delete', $id)}}" method="post">
+                                        @csrf
+                                        <button type="submit" class="bg-transparent border-0 btn-delete">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M21 5.97998C17.67 5.64998 14.32 5.47998 10.98 5.47998C9 5.47998 7.02 5.57998 5.04 5.77998L3 5.97998" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M18.85 9.14001L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79002C6.00002 22 5.91002 20.78 5.80002 19.21L5.15002 9.14001" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M10.33 16.5H13.66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M9.5 12.5H14.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="contact-information__form">
+                    <h4 class="p-card__header">Контактная информация</h4>
+                    @if(Auth::user())
                         <form action="{{route('cart.buy')}}" method="post">
                             @csrf
                             <fieldset>
-                                <h4 class="p-card__header">Контактная информация</h4>
                                 <div class="input-wrapper">
-                                    <input type="text" name="first_name" id="" placeholder="Имя" class="order-input"
-                                           value="{{auth()->user()->first_name}}" required>
-                                    <input type="text" name="last_name" id="" placeholder="Фамилия" class="order-input"
-                                           value="{{auth()->user()->last_name}}" required>
-                                    <input type="text" name="patronymic" id="" placeholder="Отчество"
-                                           class="order-input" value="{{auth()->user()->patronymic}}">
-                                    <input type="tel" name="phone" id="" placeholder="Номер телефона"
-                                           class="order-input" value="{{auth()->user()->phone}}" required>
-                                    <input type="email" name="email" id="" placeholder="Почта" class="order-input"
-                                           value="{{auth()->user()->email}}">
+                                    <div class="form-group">
+                                        <input type="text" name="first_name" id=""  class="form-control" value="{{auth()->user()->first_name}}" required>
+                                        <label class="input-label">Имя</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" name="last_name" id="" class="form-control" value="{{auth()->user()->last_name}}" required>
+                                        <label class="input-label">Фамилия</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" name="patronymic" id=""  class="form-control" value="{{auth()->user()->patronymic}}">
+                                        <label class="input-label">Отчество</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="tel" name="phone" id="phone" class="form-control" value="{{auth()->user()->phone}}" required>
+                                        <label class="input-label">Номер телефона</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="email" name="email" id="" class="form-control" value="{{auth()->user()->email}}">
+                                        <label class="input-label">Email</label>
+                                    </div>
                                 </div>
                             </fieldset>
 
                             <fieldset>
-                                <h4 class="p-card__header mt-3">Адрес доставки</h4>
+                                <h4 class="p-card__header">Адрес доставки</h4>
                                 <div class="input-wrapper">
-                                    <input type="text" name="city" id="" placeholder="Город" class="order-input"
-                                           required value="{{auth()->user()->contactInformation?->city}}">
-                                    <input type="text" name="street" id="" placeholder="Улица" class="order-input"
-                                           required value="{{auth()->user()->contactInformation?->street}}">
-                                    <input type="number" name="home" id="" placeholder="Дом" class="order-input"
-                                           required value="{{auth()->user()->contactInformation?->home}}">
-                                    <input type="number" name="flat" id="" placeholder="Квартира" class="order-input"
-                                           required value="{{auth()->user()->contactInformation?->flat}}">
-                                    <input type="number" name="index" id="" placeholder="Индекс" class="order-input"
-                                           required value="{{auth()->user()->contactInformation?->index}}">
+                                    <div class="form-group">
+                                        <input type="text" name="city" id="" class="form-control" required value="{{auth()->user()->contactInformation?->city}}">
+                                        <label class="input-label">Город</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" name="street" id="" class="form-control" required value="{{auth()->user()->contactInformation?->street}}">
+                                        <label class="input-label">Улица</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="number" name="home" id="" class="form-control" required value="{{auth()->user()->contactInformation?->home}}">
+                                        <label class="input-label">Дом</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="number" name="flat" id="" class="form-control" required value="{{auth()->user()->contactInformation?->flat}}">
+                                        <label class="input-label">Квартира</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="number" name="index" id="" class="form-control" required value="{{auth()->user()->contactInformation?->index}}">
+                                        <label class="input-label">Индекс</label>
+                                    </div>
                                 </div>
                             </fieldset>
 
                             <fieldset>
-                                <h4 class="p-card__header mt-3">Комментарий к заказу</h4>
+                                <h4 class="p-card__header">Комментарий к заказу</h4>
                                 <div class="input-wrapper">
-                                    <textarea name="comment" rows="10" class="w-100 order-input"></textarea>
+                                    <textarea name="comment" rows="10" class="form-control"></textarea>
                                 </div>
                             </fieldset>
-                            <input type="checkbox" name="is_save">
-                            <button type="submit" class="btn btn-black w-100">Купить</button>
+
+                            <button type="submit" class="btn btn-black w-100">Оформить заказ</button>
                         </form>
-                    </div>
-                </div>
-
-                <div class="col-3">
-                    <div class="p-card">
-                        <p class="total-count">Итог: {{ number_format($total, 0, '', ' ')}} ₽</p>
-
-                    </div>
+                    @else
+                        <p class="contact-information__alert">
+                            <a href="{{ route('login') }}" class="link">Войдите</a> или <a href="{{ route('register') }}" class="link">зарегистрируйтесь</a>, чтобы оформить заказ
+                        </p>
+                    @endif
                 </div>
             </div>
 
-        @endif
-    @endif
+            <div class="col-3">
+                <div class="p-card">
+                    @php
+                        $count = 0;
+                        if (session()->has('cart')){
+                            $carts = session()->get('cart');
+                            foreach ($carts as $cart) {
+                                $count += $cart['quantity'];
+                            }
+                        }
+                    @endphp
+                    @if($count > 0)
+                    <div class="count-line">
+                        <p class="count-line__num">Товары {{ $count }}, шт.</p>
+                        <p class="count-line__price">{{ number_format($total, 0, '', ' ')}} ₽</p>
+                    </div>
+                    @endif
 
+                    <div class="total-count">
+                        <p class="total-count__text">Итого:</p>
+                        <p class="total-count__price">{{ number_format($total, 0, '', ' ')}} ₽</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.5/jquery.inputmask.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#phone').inputmask('+7 (999) 999-99-99'); // Применение маски к полю ввода с id="phone"
+        });
+    </script>
     <script>
         // document.addEventListener('DOMContentLoaded', function () {
         //     document.getElementById('btn__plus').addEventListener('click', function () {
@@ -185,6 +259,7 @@
         let btnsPlus = document.querySelectorAll('.btn__plus');
         let btnsMin = document.querySelectorAll('.btn__min');
         let inputs = document.querySelectorAll('.product_input');
+
 
         // На каждую кнопку плюс добавляем слушатель на клик
         btnsPlus.forEach((btn) => {

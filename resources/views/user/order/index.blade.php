@@ -8,7 +8,6 @@
         <div class="col-9">
             <h2>Заказы</h2>
             {{--            <div class="row">--}}
-
             @foreach(json_decode(json_encode($orders)) as $order)
                 <div class="p-card mb-5">
                     <div class="order-list__order-number">
@@ -20,6 +19,7 @@
                     </div>
                     <div class="order-wrapper">
                         @foreach($order->products as $product)
+                            {{dd($order)}}
                             <div class="order-card">
                                 <div class="order-card__img card-img">
                                     <img src="{{ $product->image }}" alt="Фото продукта" class="product-img">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,7 @@ class UserOrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /* @var Order $this */
         return [
             'id' => $this->id,
             'total' => $this->total,

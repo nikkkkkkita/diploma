@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
             'patronymic' => ['nullable', 'regex:/^[А-Яа-яЁё\s]+$/u'],
             'login' => ['required', 'string', 'unique:users,login'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required'],
+            'password' => ['required', 'min:6', 'max:15'],
         ];
     }
 

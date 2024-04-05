@@ -108,13 +108,13 @@ class ShopController extends Controller
 //        }
 //
 //        $orders = collect($orders)->flatten();
-        //todo тут ебануть надо правильно
+        //todo почему нахуй не возвращаются товары))
         $shop = $user->shop;
         $productIds = $shop->products()->pluck('id')->toArray();
-        $orders = DB::table('order_products')
+        $ordersIds = DB::table('order_products')
             ->whereIn('product_id', $productIds)
-            ->get();
-        dd($orders);
+            ->pluck('id')->toArray();
+        $orders = Order::whereIn('id', $ordersIds)->get();
         return view('user.shop.order.index', ['orders' => UserOrderResource::collection($orders), 'shop' => $shop]);
     }
 

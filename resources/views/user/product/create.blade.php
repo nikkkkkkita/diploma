@@ -129,8 +129,21 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="aroma" class="form-label">Аромат</label>
-                        <input type="text" class="form-control" id="aroma" name="aroma" >
+                        <div class="form_label">
+                            <label for="aroma" class="form-label">Аромат</label>
+                            <div class="multiselect_block">
+                                <label for="select-1" class="field_multiselect">Technology</label>
+                                <input type="checkbox" id="checkbox-1" class="multiselect_checkbox">
+                                <label class="multiselect_label" for="checkbox-1"></label>
+                                <select name="aroma[]" id="aroma" class="form-select field_select" multiple>
+                                    @foreach($aromas as $aroma)
+                                        <option value="{{ $aroma['id'] }}">{{ $aroma['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+{{--                        <input type="text" class="form-control" id="aroma" name="aroma" >--}}
+
                     </div>
 
                     <div class="d-flex justify-content-between">
@@ -175,6 +188,7 @@
 @endsection
 @section('scripts')
     <script src="{{ asset('js/form.js') }}"></script>
+    <script src="{{ asset('js/select.js') }}"></script>
     <script src="{{ asset('js/preview-product-img.js') }}"></script>
 @endsection
 

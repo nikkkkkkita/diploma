@@ -90,7 +90,9 @@
                         </dt>
                         <div class="dots w-33"></div>
                         <dd class="pirt">
-                            {{$product->characteristics->aroma}}
+                            @foreach($product->aromas()->get() as $index => $aroma)
+                                {{$aroma->name}}{{ $index < $product->aromas()->count() - 1 ? ',' : '' }}
+                            @endforeach
                         </dd>
                     </dl>
 
@@ -175,7 +177,9 @@
                                 </dt>
                                 <div class="dots w-33"></div>
                                 <dd class="pirt">
-                                    {{$product->characteristics->aroma}}
+                                    @foreach($product->aromas()->get() as $aroma)
+                                        {{$aroma->name}}
+                                    @endforeach
                                 </dd>
                             </dl>
 

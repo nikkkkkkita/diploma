@@ -42,7 +42,7 @@ class ProductRequest extends FormRequest
             'material' => ['nullable', 'string', 'regex:/^[А-Яа-яЁё\s]+$/u'],
             'height' => ['nullable', 'numeric'],
             'volume' => ['nullable', 'numeric'],
-            'aroma' => ['nullable', 'string'],
+//            'aroma' => ['nullable', 'string'],
             'burning_time' => ['nullable', 'numeric'],
             'wick_type' => ['nullable', 'string', new Enum(WickType::class)],
             'type' => ['nullable', 'string', new Enum(CandleType::class)],

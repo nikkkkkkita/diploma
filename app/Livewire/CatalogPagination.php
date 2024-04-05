@@ -10,6 +10,7 @@ use App\Enums\DiffuserPlacement;
 use App\Enums\DiffusserType;
 use App\Enums\FlavoringType;
 use App\Enums\WickType;
+use App\Models\Aroma;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,7 @@ class CatalogPagination extends Component
     public $products;
     public $sort_order;
     public $category_id;
+//    public $aromas;
     public $countries;
     public $search;
     public $wick_types;
@@ -33,8 +35,10 @@ class CatalogPagination extends Component
 
     public $priceMin;
     public $priceMax;
+    public $aromas;
 //    Определяем публичную шлюху как гэнгбэнг
     public $selectedCountries = [];
+    public $selectedAromas = [];
     public $selectedWickTypes = [];
     public $selectedCandleTypes = [];
     public $selectedCandleCompositions = [];
@@ -49,6 +53,7 @@ class CatalogPagination extends Component
 
     public function render(Request $request)
     {
+
         $query = Product::query();
         $query->with('characteristics');
         if ($request->category) {
@@ -58,8 +63,21 @@ class CatalogPagination extends Component
         if ($this->category_id) {
             $query->where('category_id', $this->category_id);
         }
+
         if ($this->sort_order) {
             $query->orderBy('price', $this->sort_order);
+        }
+
+
+
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('code', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%')
+                ->orWhere('id', 'like', '%' . $request->search . '%')
+                ->orWhereHas('category', function ($subQuery) use ($request) {
+                    $subQuery->where('name', 'like', '%' . $request->search . '%');
+                });
         }
 
         $query->whereBetween('price', [$this->priceMin, $this->priceMax]);
@@ -81,6 +99,13 @@ class CatalogPagination extends Component
                 });
             });
         }
+
+        if(!empty($this->selectedAromas)) {
+            $query->whereHas('aromas', function ($aromaQuery) {
+                $aromaQuery->whereIn('aromas.id', $this->selectedAromas);
+            });
+        }
+
         $this->countries = Country::toArray();
         $this->wick_types = WickType::toArray();
         $this->types = CandleType::toArray();
@@ -89,9 +114,8 @@ class CatalogPagination extends Component
         $this->dTypes = DiffusserType::toArray();
         $this->flavoringTypes = FlavoringType::toArray();
         $this->colors = Color::toArray();
-//        $this->priceMin = Product::min('price');
-//        $this->priceMax = Product::max('price');
-        $paginator = $query->paginate(10);
+        $this->aromas = Aroma::all();
+        $paginator = $query->paginate(15);
         $this->products = $paginator->items();
         return view('livewire.catalog-pagination', ['paginator' => $paginator]);
     }
