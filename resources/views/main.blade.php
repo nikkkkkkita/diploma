@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Главная страница
+    Candela | Маркетплейс ароматов для дома
 @endsection
 @section('slider')
     <div class="slider-container">

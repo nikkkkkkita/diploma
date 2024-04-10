@@ -19,7 +19,7 @@
                             <a href="{{route('catalog', ['category' => 'diffusor'])}}" class="filter-link">Диффузоры</a>
                         </li>
                         <li class="filter-container">
-                            <a href="{{route('catalog', ['category' => 'candles'])}}" class="filter-link">Все</a>
+                            <a href="{{route('catalog')}}" class="filter-link">Все</a>
                         </li>
                     </ul>
                 </div>
@@ -248,7 +248,18 @@
     <div class="col-9">
         <div class="sort-block">
             <p class="product-count">
-                Найдено {{count($products)}} товаров
+                @if(count($products) === 0)
+                    Ничего не найдено
+                @endif
+                @if(count($products) === 1)
+                    Найден {{count($products)}} товар
+                @endif
+                @if(count($products) > 1 && count($products) < 5)
+                    Найдено {{count($products)}} товара
+                @endif
+                @if(count($products) > 4)
+                    Найдено {{count($products)}} товаров
+                @endif
             </p>
 
             <div class="dropdown">
@@ -285,6 +296,7 @@
 
                     <li class="dropdown-item__wrapper">
                         <label class="sort-label dropdown-item dropdown-item-fl">
+                            <input type="radio" wire:model.change="sort_order" value="" class="dropdown-item radio-none cursor-pointer">
                             <span class="link__text">Сбросить</span>
                         </label>
                     </li>

@@ -233,7 +233,7 @@
         // Находим кнопки и инпут
         let btnsPlus = document.querySelectorAll('.btn__plus');
         let btnsMin = document.querySelectorAll('.btn__min');
-        let inputs = document.querySelectorAll('.product_input');
+        // let inputsCart = document.querySelectorAll('.product_input');
 
 
         // На каждую кнопку плюс добавляем слушатель на клик

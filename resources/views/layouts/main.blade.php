@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Откройте для себя магию ароматов с нашим маркетплейсом 'Candela' для дома. Предлагаем широкий выбор ароматов и диффузоров, чтобы ваш дом всегда наполнялся уютом и гармонией.">
+    <meta name="keywords" content="ароматы для дома, диффузор ароматический, ароматические свечи, ароматические свечи купить, свечи ручной работы, диффузор, диффузор для дома, ароматерапия, ароматы для дома купить, магазин ароматов">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -180,13 +182,13 @@
     </div>
 </header>
 @yield('slider')
-<main class="pt-5">
+<main class="pt-5 pb-5">
     <div class="container-xxl">
         @yield('content')
     </div>
 </main>
 
-<footer class="pt-4 my-md-5  pt-md-5 border-top">
+<footer class="pt-4 pt-md-5 border-top">
     <div class="container">
         <div class="row">
             <div class="col-12 col-md">

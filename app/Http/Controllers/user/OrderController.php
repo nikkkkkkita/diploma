@@ -15,6 +15,11 @@ class OrderController extends Controller
         $user = Auth::user();
         $shop = $user->shop;
         $orders = $user->orders;
-        return view('user.order.index', ['orders' => UserOrderResource::collection($orders), 'shop' => $shop]);
+        $data = [];
+        foreach ($orders as $key => $order) {
+            $data[$key]['order'] = $order;
+            $data[$key]['products'] = $order->products()->get();
+        }
+        return view('user.order.index', ['data' => $data, 'shop' => $shop]);
     }
 }

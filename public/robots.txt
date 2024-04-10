@@ -1,2 +1,22 @@
-User-agent: *
-Disallow:
+User-agent: Yandex
+Disallow: /admin/
+Disallow: /user/
+Disallow: /plugins/
+Allow: /plugins/*.css
+Allow: /plugins/*.js
+Allow: /plugins/*.png
+Allow: /plugins/*.jpg
+Allow: /plugins/*.gif
+
+User-agent: GoogleBot
+Disallow: /admin/
+Disallow: /user/
+Disallow: /plugins/
+Allow: /plugins/*.css
+Allow: /plugins/*.js
+Allow: /plugins/*.png
+Allow: /plugins/*.jpg
+Allow: /plugins/*.gif
+
+
+

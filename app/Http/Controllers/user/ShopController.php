@@ -33,7 +33,7 @@ class ShopController extends Controller
         if ($isExistShop)
             return redirect()->back()->with('error', 'Магазин уже создан');
         $dataShop = [
-            'name' => $request->name,
+            'name'        => $request->name,
             'description' => $request->description,
         ];
         if ($request->avatar) {
@@ -64,7 +64,7 @@ class ShopController extends Controller
     public function update(Request $request, Shop $shop)
     {
         $dataShop = [
-            'name' => $request->name,
+            'name'        => $request->name,
             'description' => $request->description,
         ];
 
@@ -101,21 +101,19 @@ class ShopController extends Controller
     public function getOrders()
     {
         $user = auth()->user();
-//        foreach ($user->shop->products as $product) {
-//            if ($product->orders()->count() > 0) {
-//                $orders[] = $product->orders;
-//            }
-//        }
-//
-//        $orders = collect($orders)->flatten();
-        //todo почему нахуй не возвращаются товары))
-        $shop = $user->shop;
-        $productIds = $shop->products()->pluck('id')->toArray();
-        $ordersIds = DB::table('order_products')
-            ->whereIn('product_id', $productIds)
-            ->pluck('id')->toArray();
-        $orders = Order::whereIn('id', $ordersIds)->get();
-        return view('user.shop.order.index', ['orders' => UserOrderResource::collection($orders), 'shop' => $shop]);
+        $productIds = $user->shop?->products->pluck('id');
+        $orders = [];
+        //Разобрать
+        if (!empty($productIds)) {
+            $orders = Order::whereHas('products', function ($query) use ($productIds) {
+                $query->whereIn('product_id', $productIds);
+            })->with([
+                'products' => function ($query) use ($productIds) {
+                    $query->whereIn('product_id', $productIds);
+                }
+            ])->get();
+        }
+        return view('user.shop.order.index', ['orders' => $orders, 'shop' => $user->shop]);
     }
 
     public function updateOrder(string $id, ShopOrderUpdateRequest $request)

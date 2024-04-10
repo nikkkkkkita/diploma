@@ -11,17 +11,6 @@
         }
     </style>
     <div class="container row d-flex align-items-center">
-{{--        <div class="col">--}}
-{{--            <div class="errors">--}}
-{{--                @if($errors -> any())--}}
-{{--                    <ul class="alert alert-danger mt-2 mb-2">--}}
-{{--                        @foreach($errors->all() as $error)--}}
-{{--                            <li class="mb-1">{{ $error }}</li>--}}
-{{--                        @endforeach--}}
-{{--                    </ul>--}}
-{{--                @endif--}}
-{{--            </div>--}}
-
             <div class="card-section">
                 <div class="card-section_img">
                     <img src="{{ asset('image/reg_img.png') }}" alt="Диффузор" class="card-section_img-img">
@@ -113,17 +102,5 @@
                     </div>
                 </div>
             </div>
-
-{{--            <div class="heading d-flex justify-content-between align-items-center">--}}
-{{--                <h2>Регистрация</h2>--}}
-{{--                <a href="{{ route('login') }}" class="link-gray">Войти</a>--}}
-{{--            </div>--}}
-
-
-{{--        </div>--}}
-
-{{--        <div class="col ms-5">--}}
-{{--            <img src="{{ asset('image/log_reg_img.jpg') }}" alt="Свеча" class="w-100 rounded-2">--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    </div>
 @endsection

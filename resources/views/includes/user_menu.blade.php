@@ -1,6 +1,6 @@
 <div class="col-3">
     <div class="d-flex flex-column flex-shrink-0 p-3 menu-lk" style="width: 280px;">
-        <ul class="nav nav-pills flex-column mb-auto">
+        <ul class="user-nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="#" class="nav-link {{ active_link('#') }}" aria-current="page">
                     <img src="{{ asset('image/icons/home.svg') }}" class="me-2">
@@ -50,13 +50,10 @@
                 </li>
             @endif
 
-            <li>
-
-            </li>
         </ul>
         @if($application && $application->status === \App\Enums\StatusEnum::ACCEPTED->value && $shop)
             <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
+            <ul class="user-nav nav-pills flex-column mb-auto">
                 <li>
                     <a href="{{ route('shop.show', \Illuminate\Support\Facades\Auth::user()->shop) }}"
                        class="nav-link link-body-emphasis">

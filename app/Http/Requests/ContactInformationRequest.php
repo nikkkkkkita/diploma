@@ -23,17 +23,17 @@ class ContactInformationRequest extends FormRequest
     {
         return [
             'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
+            'last_name'  => ['required', 'string'],
             'patronymic' => ['nullable', 'string'],
-            'phone' => ['numeric', 'required'],
-            'email' => ['required', 'email'],
-            'city' => ['required', 'string'],
-            'street' => ['required', 'string'],
-            'home' => ['required', 'numeric'],
-            'flat' => ['required', 'numeric'],
-            'index' => ['required', 'numeric'],
-            'comment' => ['nullable', 'string'],
-            'is_save' => ['nullable', 'in:on,off']
+            'phone'      => ['string', 'required'],
+            'email'      => ['required', 'email'],
+            'city'       => ['required', 'string'],
+            'street'     => ['required', 'string'],
+            'home'       => ['required', 'numeric'],
+            'flat'       => ['required', 'numeric'],
+            'index'      => ['required', 'numeric'],
+            'comment'    => ['nullable', 'string'],
+            'is_save'    => ['nullable', 'in:on,off']
         ];
     }
 }

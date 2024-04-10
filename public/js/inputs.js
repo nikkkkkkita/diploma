@@ -1,7 +1,7 @@
-let inputs = document.querySelectorAll('.form-control');
+let customInputs = document.querySelectorAll('.form-control');
 
-if (inputs) {
-    inputs.forEach((el) => {
+if (customInputs) {
+    customInputs.forEach((el) => {
         inputHandler(el)
         el.addEventListener('input', (e) => {
             inputHandler(el)

@@ -52,7 +52,6 @@ Route::prefix('shop')->group(function () {
     });
     Route::get('/{shop}', [\App\Http\Controllers\ShopController::class, 'show'])->name('shop.show');
     Route::get('', [\App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
-
 });
 
 Route::prefix('product')->group(function () {
@@ -62,10 +61,9 @@ Route::prefix('product')->group(function () {
 
 Route::prefix('cart')->group(function () {
     Route::get('', [\App\Http\Controllers\CartController::class, 'index'])->name('cart');
+    Route::post('/buy', [\App\Http\Controllers\CartController::class, 'buy'])->name('cart.buy');
     Route::post('/{id}', [\App\Http\Controllers\CartController::class, 'deleteItem'])->name('cart.delete');
     Route::post('/update-cart', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
     Route::get('/get/{id}', [\App\Http\Controllers\CartController::class, 'getCart']);
     Route::post('/operation/{id}', [\App\Http\Controllers\CartController::class, 'operationCart']);
 });
-Route::post('/buy', [\App\Http\Controllers\CartController::class, 'buy'])->name('cart.buy');
-
